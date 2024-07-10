@@ -1,7 +1,7 @@
 ﻿
 namespace CSMastermindProject
 {
-    partial class Mastermind
+    partial class SetPassword
     {
         /// <summary>
         /// Required designer variable.
@@ -43,8 +43,7 @@ namespace CSMastermindProject
             this.labelOrangeColor = new System.Windows.Forms.Label();
             this.labelPurpleColor = new System.Windows.Forms.Label();
             this.panelColorLabels = new System.Windows.Forms.Panel();
-            this.buttonSubmitGuess = new System.Windows.Forms.Button();
-            this.buttonNewGame = new System.Windows.Forms.Button();
+            this.btnSetPassword = new System.Windows.Forms.Button();
             this.GroupBoxColors.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxBlack)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxBlue)).BeginInit();
@@ -134,10 +133,10 @@ namespace CSMastermindProject
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(264, 51);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(779, 48);
+            this.label1.Size = new System.Drawing.Size(685, 24);
             this.label1.TabIndex = 15;
-            this.label1.Text = "I am thinking of a 4-color password. Can you guess it? You have unlimited attempt" +
-    "s to guess.\r\nSelect a color by clicking it on the left.";
+            this.label1.Text = "Set a 4-color password in the space below. Select a color by clicking it on the l" +
+    "eft.";
             // 
             // labelBlackColor
             // 
@@ -201,42 +200,29 @@ namespace CSMastermindProject
             this.panelColorLabels.Size = new System.Drawing.Size(69, 305);
             this.panelColorLabels.TabIndex = 21;
             // 
-            // buttonSubmitGuess
+            // btnSetPassword
             // 
-            this.buttonSubmitGuess.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonSubmitGuess.Location = new System.Drawing.Point(140, 433);
-            this.buttonSubmitGuess.Name = "buttonSubmitGuess";
-            this.buttonSubmitGuess.Size = new System.Drawing.Size(100, 68);
-            this.buttonSubmitGuess.TabIndex = 22;
-            this.buttonSubmitGuess.Text = "Submit Guess";
-            this.buttonSubmitGuess.UseVisualStyleBackColor = true;
-            this.buttonSubmitGuess.Click += new System.EventHandler(this.ButtonSubmitGuess_Click);
+            this.btnSetPassword.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSetPassword.Location = new System.Drawing.Point(28, 433);
+            this.btnSetPassword.Name = "btnSetPassword";
+            this.btnSetPassword.Size = new System.Drawing.Size(212, 68);
+            this.btnSetPassword.TabIndex = 22;
+            this.btnSetPassword.Text = "Set Password";
+            this.btnSetPassword.UseVisualStyleBackColor = true;
+            this.btnSetPassword.Click += new System.EventHandler(this.BtnSetPassword_Click);
             // 
-            // buttonNewGame
-            // 
-            this.buttonNewGame.Enabled = false;
-            this.buttonNewGame.Font = new System.Drawing.Font("Microsoft Sans Serif", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonNewGame.Location = new System.Drawing.Point(28, 433);
-            this.buttonNewGame.Name = "buttonNewGame";
-            this.buttonNewGame.Size = new System.Drawing.Size(100, 68);
-            this.buttonNewGame.TabIndex = 23;
-            this.buttonNewGame.Text = "New Game";
-            this.buttonNewGame.UseVisualStyleBackColor = true;
-            this.buttonNewGame.Click += new System.EventHandler(this.ButtonNewGame_Click);
-            // 
-            // Mastermind
+            // SetPassword
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1122, 539);
-            this.Controls.Add(this.buttonNewGame);
-            this.Controls.Add(this.buttonSubmitGuess);
+            this.Controls.Add(this.btnSetPassword);
             this.Controls.Add(this.panelColorLabels);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.FlowLayoutPanelGuesses);
             this.Controls.Add(this.GroupBoxColors);
-            this.Name = "Mastermind";
-            this.Text = "Mastermind";
+            this.Name = "SetPassword";
+            this.Text = "Set Password";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Mastermind_FormClosing);
             this.GroupBoxColors.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.PictureBoxBlack)).EndInit();
@@ -267,8 +253,7 @@ namespace CSMastermindProject
         private System.Windows.Forms.Label labelOrangeColor;
         private System.Windows.Forms.Label labelPurpleColor;
         private System.Windows.Forms.Panel panelColorLabels;
-        private System.Windows.Forms.Button buttonSubmitGuess;
-        private System.Windows.Forms.Button buttonNewGame;
+        private System.Windows.Forms.Button btnSetPassword;
     }
 }
 

@@ -1,11 +1,22 @@
 ﻿/**
  * Name: Travis Bode
- * Date: 12/15/23
- * This is my C# project. It is a Mastermind-like game that contains a GUI for playing the game.
+ * Date: 7/10/2024
+ * 
+ * 
+ * This is my C# project.
+ * 
+ * It is a Mastermind-like game that contains a GUI for playing the game.
+ * 
  * The player has 5 colors to choose from, which they use to guess a password that
- * contains 4 colors. They have unlimited attempts to guess the password. The computer
- * creates the password, and feedback is given on how many colors were correct and how many
- * colors were misplaced.
+ * contains 4 colors. They have unlimited attempts to guess the password. Feedback
+ * is given for incorrect and misplaced colors.
+ * 
+ * This game can be played with 1 or 2 human players.
+ * 
+ * If playing alone: the computer creates a random password that the player must try to guess.
+ * 
+ * If playing with someone else: one player gets to choose the password that must be guessed,
+ * and the other player must try to guess that password.
  */
 
 using System;
@@ -30,8 +41,11 @@ namespace CSMastermindProject
         // the amount of colors that the player must put into a guess
         private const int GUESS_LENGTH = 4;
 
-        // the guess that the computer makes before the game starts
-        private string[] computerGuess;
+        // the guess that the opponent (computer or friend) makes before the game starts
+        private string[] opponentGuess = new string[Mastermind.GUESS_LENGTH];
+
+        // this is used to prevent the computer's random password from overriding the player's custom password
+        private bool isComputerPlaying = true;
 
         // the current guess count
         private int guess;
@@ -49,43 +63,65 @@ namespace CSMastermindProject
         }
 
         /**
+         * Set the opponent's guess (the password to guess) to the player's custom password
+         * Used when playing against a friend
+         */
+        public Mastermind(string[] playerPassword)
+        {
+            // mark that the computer is NOT playing
+            this.isComputerPlaying = false;
+
+            // Set the opponent's guess to the player's custom password
+            for (int i = 0; i < Mastermind.GUESS_LENGTH; i++)
+            {
+                this.opponentGuess[i] = playerPassword[i];
+            }
+            InitializeComponent();
+            this.StartGame();
+        }
+
+        /**
          * Sets up the game to be ready to be played.
          */
         private void StartGame()
         {
             this.isGameOver = false;
 
-            // generate a guess for the computer
-            this.computerGuess = new string[Mastermind.GUESS_LENGTH];
-            Random rnd = new Random();
-            for (int i = 0; i < Mastermind.GUESS_LENGTH; i++)
+            // generate a guess for the computer if playing against it
+            if (isComputerPlaying)
             {
-                // generate a random number between 1 and 5 (inclusive)
-                // then use that number to pick a color
-                int number = rnd.Next(1, 6);
-                switch (number)
+                this.opponentGuess = new string[Mastermind.GUESS_LENGTH];
+                Random rnd = new Random();
+                for (int i = 0; i < Mastermind.GUESS_LENGTH; i++)
                 {
-                    case 1:
-                        computerGuess[i] = "Black";
-                        break;
-                    case 2:
-                        computerGuess[i] = "Blue";
-                        break;
-                    case 3:
-                        computerGuess[i] = "Brown";
-                        break;
-                    case 4:
-                        computerGuess[i] = "Orange";
-                        break;
-                    case 5:
-                        computerGuess[i] = "Purple";
-                        break;
+                    // generate a random number between 1 and 5 (inclusive)
+                    // then use that number to pick a color
+                    int number = rnd.Next(1, 6);
+                    switch (number)
+                    {
+                        case 1:
+                            opponentGuess[i] = "Black";
+                            break;
+                        case 2:
+                            opponentGuess[i] = "Blue";
+                            break;
+                        case 3:
+                            opponentGuess[i] = "Brown";
+                            break;
+                        case 4:
+                            opponentGuess[i] = "Orange";
+                            break;
+                        case 5:
+                            opponentGuess[i] = "Purple";
+                            break;
+                    }
                 }
-                // This outputs the computer's guess
-                // uncomment if desired
-                //Console.WriteLine("Computer guess slot " + (i + 1) + ": " + this.computerGuess[i]);
             }
-            
+
+            // This outputs the opponent's guess to the console
+            // uncomment if desired
+            //foreach (string slot in this.opponentGuess) { Console.WriteLine("Opponent guess: " + slot); }
+
             // get rid of any guesses from a previous game
             // this removes all guesses from the GUI
             this.FlowLayoutPanelGuesses.Controls.Clear();
@@ -238,7 +274,7 @@ namespace CSMastermindProject
             // check each guess slot for correctness (NOT misplaced colors)
             for (int i = 0; i < Mastermind.GUESS_LENGTH; i++)
             {
-                if (guess[i].Name == this.computerGuess[i])
+                if (guess[i].Name == this.opponentGuess[i])
                 {
                     correctColors[i] = true;
                 }
@@ -258,14 +294,14 @@ namespace CSMastermindProject
             for (int playerGuessIndex = 0; playerGuessIndex < Mastermind.GUESS_LENGTH; playerGuessIndex++)
             {
                 // if the guess is incorrect, examine it further
-                if (guess[playerGuessIndex].Name != this.computerGuess[playerGuessIndex])
+                if (guess[playerGuessIndex].Name != this.opponentGuess[playerGuessIndex])
                 {
                     // if this color is in the code but NOT in this slot,
                     // AND that color is not guessed correctly somewhere else
                     // in the code, then it is misplaced
                     for (int computerGuessIndex = 0; computerGuessIndex < Mastermind.GUESS_LENGTH; computerGuessIndex++)
                     {
-                        if (guess[playerGuessIndex].Name == this.computerGuess[computerGuessIndex] && correctColors[computerGuessIndex] == false)
+                        if (guess[playerGuessIndex].Name == this.opponentGuess[computerGuessIndex] && correctColors[computerGuessIndex] == false)
                         {
                             misplacedColors[playerGuessIndex] = true;
                         }
@@ -301,14 +337,14 @@ namespace CSMastermindProject
             // if the player got no colors correct, and possibly misplaced others
             else if (totalCorrect == 0)
             {
-                feedbackBox.Text += $"No. Correct: {totalCorrect}    Misplaced: {totalMisplaced}";
+                feedbackBox.Text += $"Correct: {totalCorrect}    Misplaced: {totalMisplaced}";
                 feedbackBox.BackColor = Color.Red;
             }
 
             // if the player got some colors correct but misplaced others
             else
             {
-                feedbackBox.Text += $"No. Correct: {totalCorrect}    Misplaced: {totalMisplaced}";
+                feedbackBox.Text += $"Correct: {totalCorrect}    Misplaced: {totalMisplaced}";
                 feedbackBox.BackColor = Color.Orange;
             }
 
@@ -355,9 +391,19 @@ namespace CSMastermindProject
             this.CheckGuess();
         }
 
-        private void buttonNewGame_Click(object sender, EventArgs e)
+        private void ButtonNewGame_Click(object sender, EventArgs e)
         {
-            this.StartGame();
+            MainMenu menu = new MainMenu();
+            menu.Show();
+            this.Hide();
+        }
+
+        /**
+         * Close the app when the user closes the form
+         */
+        private void Mastermind_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

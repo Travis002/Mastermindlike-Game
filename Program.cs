@@ -16,7 +16,7 @@ namespace CSMastermindProject
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Mastermind());
+            Application.Run(new MainMenu());
         }
     }
 }
